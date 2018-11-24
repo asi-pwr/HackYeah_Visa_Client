@@ -21,13 +21,15 @@ while True:
         img_name = "pic.png"
         cv2.imwrite(img_name, frame)
 
-        url = "http://localhost:8000/imageUpload"
+        url = "http://localhost:5000/uploader"
         fin = open('pic.png', 'rb')
-        files = {'file': fin}
-        headers = {'Content-Disposition': 'attachment', 'filename': img_name}
+        files = {
+            'file': ('pic.png', open('pic.png', 'rb')),
+        }
+        
         try:
-            r = requests.put(url, files=files, headers=headers)
-            print(r.text)
+            response = requests.post(url, files=files)
+            print(response.text)
         finally:
         	fin.close()
 
